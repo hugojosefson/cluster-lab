@@ -10,5 +10,9 @@
   "keywords": [],
   "author": "Hugo Josefson <hugo@josefson.org>",
   "repository": "hugojosefson/cluster-lab",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^5.0.0-alpha.2"
+  },
   "license": "MIT"
 }
