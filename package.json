@@ -7,7 +7,14 @@
     "start": "node lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "cluster",
+    "master",
+    "worker",
+    "node",
+    "processes",
+    "express"
+  ],
   "author": "Hugo Josefson <hugo@josefson.org>",
   "repository": "hugojosefson/cluster-lab",
   "dependencies": {
