@@ -7,6 +7,6 @@ module.exports = () => {
     // In this case it is an HTTP server
     http.createServer((req, res) => {
         res.writeHead(200);
-        res.end('hello world\n');
+        res.end(`Hello world. This is worker ${cluster.worker.id}.\n`);
     }).listen(8000);
 };
