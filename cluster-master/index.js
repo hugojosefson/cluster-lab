@@ -24,47 +24,44 @@ const formatWorker = worker => ({
     suicide: worker.suicide
 });
 
-module.exports = ()=> {
+cluster.on('exit', (worker, code, signal) => {
+    log(`Worker ${worker.process.pid} died with exit code ${code} because of signal ${signal}`);
+    cluster.fork();
+});
 
-    cluster.on('exit', (worker, code, signal) => {
-        log(`Worker ${worker.process.pid} died with exit code ${code} because of signal ${signal}`);
-        cluster.fork();
-    });
+// Fork workers.
+for (var i = 0; i < numCPUs; i++) {
+    cluster.fork();
+}
 
-    // Fork workers.
-    for (var i = 0; i < numCPUs; i++) {
-        cluster.fork();
+const adminApp = express();
+adminApp.use(bodyParser.json());
+adminApp.get('/', (req, res) => res.send({_links: {workers: {href: 'http://localhost:8001/workers'}}}));
+adminApp.get('/workers', (req, res) => res.send({
+    _links: {self: {href: 'http://localhost:8001/workers'}},
+    workers: formatWorkers(cluster.workers)
+}));
+adminApp.get('/workers/:id', (req, res) => {
+    const worker = cluster.workers[req.params.id];
+    if (!worker) {
+        return res.sendStatus(404);
     }
-
-    const adminApp = express();
-    adminApp.use(bodyParser.json());
-    adminApp.get('/', (req, res) => res.send({_links: {workers: {href: 'http://localhost:8001/workers'}}}));
-    adminApp.get('/workers', (req, res) => res.send({
-        _links: {self: {href: 'http://localhost:8001/workers'}},
-        workers: formatWorkers(cluster.workers)
-    }));
-    adminApp.get('/workers/:id', (req, res) => {
-        const worker = cluster.workers[req.params.id];
-        if (!worker) {
-            return res.sendStatus(404);
+    res.send(formatWorker(worker));
+});
+adminApp.post('/workers/:id/messages', (req, res) => {
+    const worker = cluster.workers[req.params.id];
+    if (!worker) {
+        return res.sendStatus(404);
+    }
+    worker.send(req.body, null, err => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.sendStatus(204);
         }
-        res.send(formatWorker(worker));
     });
-    adminApp.post('/workers/:id/messages', (req, res) => {
-        const worker = cluster.workers[req.params.id];
-        if (!worker) {
-            return res.sendStatus(404);
-        }
-        worker.send(req.body, null, err => {
-            if (err) {
-                res.status(500).send(err);
-            } else {
-                res.sendStatus(204);
-            }
-        });
-    });
+});
 
-    adminApp.listen(8001, ()=> {
-        log('Cluster admin API ready at http://localhost:8001/');
-    });
-};
+adminApp.listen(8001, ()=> {
+    log('Cluster admin API ready at http://localhost:8001/');
+});
