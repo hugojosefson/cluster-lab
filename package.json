@@ -9,5 +9,6 @@
   },
   "keywords": [],
   "author": "Hugo Josefson <hugo@josefson.org>",
+  "repository": "hugojosefson/cluster-lab",
   "license": "MIT"
 }
