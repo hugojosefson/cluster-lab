@@ -2,9 +2,9 @@
   "name": "cluster-lab",
   "version": "1.0.0",
   "description": "A tiny cluster of node workers.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "start": "node .",
+    "start": "node lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
