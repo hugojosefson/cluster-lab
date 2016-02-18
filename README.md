@@ -41,10 +41,11 @@ Worker 8: App ready at http://localhost:8000/
 Worker 7: App ready at http://localhost:8000/
 ```
 
-You can then browse the Cluster admin API at http://localhost:8001/ and also check in on a
-worker at http://localhost:8000/.
+You can then browse the Cluster admin API at [http://localhost:8001/](http://localhost:8001/) and
+also check in on a worker at [http://localhost:8000/](http://localhost:8000/).
 
-Each time you request http://localhost:8000/, you should get a separate worker (round-robin style).
+Each time you request [http://localhost:8000/](http://localhost:8000/), you should get a separate
+worker (round-robin style).
 
 Try killing one or more of the workers. Check their process id (pid) using the Cluster admin API.
 Then use `kill` in a different terminal to kill the worker, and see that the cluster master spins
