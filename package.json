@@ -1,5 +1,6 @@
 {
   "name": "cluster-lab",
+  "private": true,
   "version": "1.0.0",
   "description": "A tiny cluster of node workers.",
   "main": "lib/index.js",
