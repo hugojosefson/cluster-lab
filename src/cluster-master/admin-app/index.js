@@ -1,10 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+import express from 'express';
+import bodyParser from 'body-parser';
 
-const routeRoot = require('./routes/root');
-const routeWorkers = require('./routes/workers');
-const routeWorkersId = require('./routes/workers-id');
-const routeWorkersIdMessagesPost = require('./routes/workers-id-messages-post');
+import routeRoot from './routes/root';
+import routeWorkers from './routes/workers';
+import routeWorkersId from './routes/workers-id';
+import routeWorkersIdMessagesPost from './routes/workers-id-messages-post';
 
 const adminApp = express();
 adminApp.use(bodyParser.json());

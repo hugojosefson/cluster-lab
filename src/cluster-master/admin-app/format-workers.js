@@ -1,4 +1,4 @@
-const formatWorker = require('./format-worker');
+import formatWorker from './format-worker';
 
 module.exports = workers => Object.keys(workers)
     .map(id => workers[id])

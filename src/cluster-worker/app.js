@@ -1,7 +1,7 @@
-const cluster = require('cluster');
-const express = require('express');
+import express from 'express';
+import {processName} from 'express-cluster-stability';
 
 const app = express();
-app.get('/', (req, res) => res.send(`Hello world. This is worker ${cluster.worker.id}.\n`));
+app.get('/', (req, res) => res.send(`Hello world. This is ${processName}.\n`));
 
 module.exports = app;

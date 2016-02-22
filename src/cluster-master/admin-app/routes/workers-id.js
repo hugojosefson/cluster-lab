@@ -1,5 +1,5 @@
-const cluster = require('cluster');
-const formatWorker = require('../format-worker');
+import cluster from 'cluster';
+import formatWorker from '../format-worker';
 
 module.exports = (req, res) => {
     const worker = cluster.workers[req.params.id];

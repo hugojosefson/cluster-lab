@@ -1,4 +1,4 @@
-const cluster = require('cluster');
+import cluster from 'cluster';
 
 module.exports = (req, res) => {
     const worker = cluster.workers[req.params.id];
