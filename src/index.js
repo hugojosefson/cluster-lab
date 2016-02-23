@@ -2,10 +2,8 @@
 import cluster from 'cluster';
 import clusterStability from 'express-cluster-stability';
 
-clusterStability(({log}) => {
-    return require('./cluster-worker')(log);
-});
-
-if (cluster.isMaster) {
-    require('./cluster-master');
-}
+clusterStability(
+    ({log}) => require('./cluster-worker')(log),
+    null,
+    ({log}) => require('./cluster-master')(log)
+);
