@@ -3,40 +3,61 @@
   "private": true,
   "version": "1.0.0",
   "description": "A tiny cluster of node workers.",
-  "main": "lib/index.js",
+  "module": "src/index.mjs",
   "scripts": {
-    "start": "node lib",
-    "postinstall": "npm run compile",
-    "compile": "rm -rf lib; babel -d lib/ src/",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.mjs",
+    "prepare": "run-s lint",
+    "lint": "prettier --write '{src,test}/**/*.{js,mjs,md}' './*.{js,mjs,md}'",
+    "test": "run-s lint mocha",
+    "mocha": "mocha",
+    "npm-audit": "npm install --package-lock-only && npm audit; rm package-lock.json"
   },
+  "author": "Hugo Josefson <hugo@josefson.org> (https://www.hugojosefson.com/)",
+  "repository": "hugojosefson/cluster-lab",
+  "license": "MIT",
   "keywords": [
     "cluster",
+    "express",
     "master",
     "worker",
     "node",
-    "processes",
-    "express"
+    "processes"
   ],
-  "author": "Hugo Josefson <hugo@josefson.org>",
-  "repository": "hugojosefson/cluster-lab",
-  "dependencies": {
-    "babel-cli": "^6.5.1",
-    "babel-preset-es2015": "^6.5.0",
-    "body-parser": "^1.15.0",
-    "express": "^5.0.0-alpha.2",
-    "express-cluster-stability": "^1.3.0"
+  "mocha": {
+    "spec": "test/*-test.mjs"
   },
-  "babel": {
-    "presets": [
-      "es2015"
-    ],
-    "plugins": [
-      "add-module-exports"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{mjs,js,jsx}": [
+      "prettier --write"
     ]
   },
-  "license": "MIT",
   "devDependencies": {
-    "babel-plugin-add-module-exports": "^0.1.2"
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "express": "^4.17.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.2",
+    "mocha": "^8.0.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.5",
+    "rollup": "^2.13.1"
+  },
+  "engines": {
+    "node": ">=13.2.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express-cluster-stability": "^3.0.0"
   }
 }
